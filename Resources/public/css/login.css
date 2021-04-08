@@ -1,0 +1,80 @@
+#login-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+#bg-login:after {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  content: "";
+  background: rgba(0, 0, 0, 0) url("/assets/img/fondos/bg-login.jpg") no-repeat
+    scroll center center / cover;
+  width: 33.33%;
+  z-index: -2;
+}
+
+#bg-login:before {
+  background: rgba(0, 0, 0, 0)
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.8) 0px,
+      rgba(0, 0, 0, 0.2) 60%,
+      rgba(0, 0, 0, 0) 100%
+    )
+    repeat scroll 0 0;
+  bottom: 0;
+  content: "";
+  left: 0;
+  position: fixed;
+  right: 66.6667%;
+  top: 0;
+  z-index: -1;
+}
+
+#bg-form-login:after {
+  background: rgba(0, 0, 0, 0) linear-gradient(135deg, #edf0f5 0px, #fff 100%)
+    repeat scroll 0 0;
+  bottom: 0;
+  content: "";
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 66.6667%;
+  z-index: -1;
+}
+
+#form-login-container {
+  max-width: 500px;
+  padding: 60px;
+}
+
+@media (max-width: 48em) {
+  #bg-form-login::after {
+    width: 100%;
+  }
+  #form-login-container {
+    margin: 0 auto;
+  }
+}
+
+#logo-base {
+  position: fixed;
+  left: 0;
+  bottom: 60px;
+  padding: 20px;
+  width: 33%;
+}
+
+#copyright {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  width: 33%;
+}

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name = "viewport" content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <meta charset = "utf-8" />
+        <meta name="application-name" content="Pirwa Hostels"/>
+        <title>Pirwa Management System</title>
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+        <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700' rel='stylesheet' type='text/css'>
+        <link href="{{ asset('/assets/css/bootstrap.css') }}" type="text/css" rel="stylesheet" />
+        <link href="{{ asset('/assets/css/materialdesignicons.min.css') }}" type="text/css" rel="stylesheet" />
+        <link href="{{ asset('/assets/css/materialcss.css') }}" type="text/css" rel="stylesheet" />
+        <link href="{{ asset('/assets/css/waves.css') }}" type="text/css" rel="stylesheet" />
+        <link href="{{ asset('/assets/css/pirwa.css') }}" type="text/css" rel="stylesheet" />
+        <link href="{{ asset('/bundles/login/css/login.css') }}" type="text/css" rel="stylesheet" />
+    </head>
+    <body class="grey lighten-4">
+        <div class="container-fluid" id="login-container">
+            <div class="row">
+                <div class="col-md-4 hidden-sm-down p-x-3" id="bg-login">
+                    <div class="margintop50">
+                        <img src="{{ asset('/assets/img/iconos/pms-text.png') }}" alt="Pirwa Hostels" width="180" height="60" class="marginright50" />
+                    </div>
+                    <div class="m-t-5 p-t-5">
+                        <h4 class="white-text">Algunas recomendaciones</h4>
+                        <div class="white-text small m-t-2">
+                            <div class="margintop20">
+                                <i class="mdi mdi-checkbox-marked"></i> Usa sólo navegadores modernos como Chrome o Firefox, y que estén actualizados
+                            </div>
+                            <div class="margintop10">
+                                <i class="mdi mdi-checkbox-marked"></i> No guardes tus datos de acceso en el navegador.
+                            </div>
+                            <div class="margintop10">
+                                <i class="mdi mdi-checkbox-marked"></i> Modifica periodicamente tu contraseña.
+                            </div>
+                        </div>
+                    </div>
+                    <div id="logo-base" class="text-center">
+                        <img src="{{ asset('/assets/img/iconos/logo-pirwahostels.png') }}" alt="Pirwa Hostels" width="143" height="60" class="marginright50" />
+                    </div>
+                    <div id="copyright" class="small text-center white-text">
+                        &copy; Copyright {{"now"|date('Y')}}. Departamento de Tecnologías de la Información - <strong>Pirwa Hostels</strong>
+                    </div>
+                </div>
+                <div class="col-md-8 col-xs-12" id="bg-form-login">
+                    <div class="m-t-1 hidden-md-up text-center p-t-1 p-b-2 bordered-bottom">
+                        <img src="{{ asset('/assets/img/iconos/pms-text-black.png') }}" alt="Pirwa Hostels" width="180" height="60" class="marginright50" />
+                    </div>
+                    <div class="margintop50">
+                        <div class="" id="form-login-container">
+                            <h1 class="h3 text-center bold">Iniciar sesión</h1>
+                            <form role="form" id="login-form" class="m-t-3" action="{{path('login_validar')}}">
+                                <input type="hidden" id="timezone" name="timezone" value="America/Lima">
+                                <input type="hidden" id="return" name="return" value="{{return|default('')}}">
+                                <input type="hidden" id="idhotel" name="idhotel" value="{{idhotel|default('')}}">
+                                <div class="form-group">
+                                    <div class="input-group margin-bottom-sm">
+                                        <span class="input-group-addon"><i class="mdi mdi-account"></i></span>
+                                        <input type="text" tabindex="1" placeholder="Usuario" name="usuario" id="usuario" class="form-control" autofocus="" tabindex="1">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group margin-bottom-sm">
+                                        <span class="input-group-addon"><i class="mdi mdi-lock"></i></span>
+                                        <input type="password" tabindex="2" placeholder="Contraseña" name="clave" id="clave" class="form-control" tabindex="2">
+                                    </div>
+                                </div>
+                                {% if validarUrl(return) %}
+                                    <div class="form-group m-y-2">
+                                        <label class="c-input c-checkbox">
+                                            <input type="checkbox" class="c-input c-checkbox" id="redirigir" name="redirigir" checked="">
+                                            <span class="c-indicator"></span>
+                                            <span class="checkbox-label">Redirigir a <span id="rutavisiblereturn">{{return}}</span></span>
+                                        </label>
+                                    </div>
+                                {% endif %}
+                                <div class="form-group m-y-3">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <a href="javascript: void(0)" id="login-check" class="btn btn-block btn-primary waves-effect waves-light btn-flat" tabindex="3">
+                                                Identificarse
+                                                <i class="mdi mdi-arrow-right"></i>
+                                            </a>
+                                            <input type="submit" tabindex="3" class="dafaultSubmit" id="login-submit" value="Submit">
+                                        </div>
+                                        <div class="col-sm-12 margintop50 text-right">
+                                            <a rel="tooltip" data-title="Proceso de recuperación de contraseñas" href="{{path('login_recuperar_clave')}}" data-original-title="" title="" data-placement="bottom" class="text-primary">Olvidé mi contraseña</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div id="login-alert"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {# alertas del sistema #}
+        <section id="contenedor-alertas-hoja">
+            <div class="container3">
+                <div id="alertas-hoja" class="izquierda todo a-fijo">
+                    {% for flashMessage in app.session.flashbag.get('alerta-sistema') %}
+                        <div class="alert alert-info alert-block">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button><div class="alertWrapper">{{flashMessage|raw}}</div>
+                        </div>
+                    {% endfor %}
+                    {% for flashMessage in app.session.flashbag.get('error-sistema') %}
+                        <div class="alert alert-danger alert-block">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button><div class="alertWrapper">{{flashMessage|raw}}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        {# ajax - loader #}
+        <div class="ajax-loader z-depth-5">
+            <div class="loader">
+                <svg class="circular">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
+                </svg>
+            </div>
+        </div>
+        {# Script JS #}
+        <script type="text/javascript" src="{{ asset('/assets/js/jquery.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/assets/js/jquery-ui.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/assets/js/bootstrap.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/assets/js/pirwa.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/assets/js/toastr.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/assets/js/waves.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/bundles/login/js/login.js') }}"></script>
+    </body>
+</html>

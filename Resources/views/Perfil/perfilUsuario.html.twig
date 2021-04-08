@@ -1,0 +1,123 @@
+{% extends "::base.html.twig" %}
+
+{% block header %}
+    {{ include('LoginBundle:Perfil:headerPerfil.html.twig') }}
+{% endblock %}
+
+{% block sidebar %}
+    <div id="sidebar" class="page-sidebar menu-compact">
+        <ul class="nav sidebar-menu">
+            {# homepage #}
+            <li>
+                <a href="{{path('login_perfil_usuario')}}">
+                    <i class="menu-icon mdi-account"></i>
+                </a>
+            </li>
+            {# inicio #}
+            <li>
+                <a href="{{path('login_redirigir_homepage_nivel')}}">
+                    <i class="menu-icon mdi-arrow-left-bold"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block cuerpo %}
+    <div class="row m-t-1">
+        <div class="col-lg-4 col-xs-12">
+            <div class="card">
+                <div class="card-block white-text" style="background-image: url('/assets/img/fondos/default-1.jpg');background-size: cover">
+                    <div class="text-center">
+                        <div class="user-content">
+                            <img alt="img" class="thumb-lg img-circle" src="{{asset('/assets/img/iconos/user.svg')}}" width="160" height="160">
+                            <div class="m-t-1">
+                                <h4 class="h5">{{usuario.nombre}}</h4>
+                                <h5 class="h6">{{usuario.email}}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-block bordered-bottom-solid p-y-2">
+                    <div class="row">
+                        <div class="col-xs-6 text-center">
+                            <div class="h5 bold m-a-0">Administrador</div>
+                            <div class="text-muted light small">NIVEL</div>
+                        </div>
+                        <div class="col-xs-6 text-center">
+                            <div class="h5 bold m-a-0">{{usuario.fecharegistro|fdate('d M Y')}}</div>
+                            <div class="text-muted light small">FECHA REGISTRO</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-block bordered-bottom-solid">
+                    <div class="row">
+                        <div class="col-xs-4 semibold text-right">
+                            Password
+                        </div>
+                        <div class="col-xs-4">
+                            ********
+                        </div>
+                        <div class="col-xs-4">
+                            <a href="{{path('login_cambiar_clave_usuario')}}">Cambiar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-block">
+                    <div class="row">
+                        <div class="col-xs-4 semibold text-right">
+                            Celular
+                        </div>
+                        <div class="col-xs-4">
+                            {% if usuario.celular is not empty %}
+                                {{usuario.celular|slice(0,5)}}****
+                            {% else %}
+                                (sin celular)
+                            {% endif %}
+                        </div>
+                        <div class="col-xs-4">
+                            <a href="#" class="">Cambiar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 col-xs-12">
+            <div class="card">
+                <div class="card-block">
+                    <ul class="nav nav-tabs white tabs-white p-x-2" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-principales" role="tab" data-toggle="tab">PERMISOS DE ACCESO <span class="label">{{app.session.get('permisosusuario')|length}}</span></a>
+                        </li>
+                    </ul>
+                    <div class="tab-content p-a-2">
+                        <div id="tab-principales" role="tabpanel" class="tab-pane fade in active">
+                            <div class="list-group">
+                                {% for idhotel in app.session.get('permisosusuario') %}
+                                    <div class="list-group-item p-a-1">
+                                        <h5 class="m-b-1">{{hoteles[idhotel].nombre}}</h5>
+                                        {% if app.session.get('nivelusuario') < 3 %}
+                                            <div class="row text-muted">
+                                                <div class="col-xs-6">
+                                                    Desde: {{permisos[idhotel].desde|fdate('D, d M Y H:i')}}
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    Hasta: {{permisos[idhotel].hasta|default(date('now')|date_modify('+1 year'))|fdate('D, d M Y H:i')}}
+                                                </div>
+                                            </div>
+                                        {% else %}
+                                            <p class="text-muted">Permiso completo</p>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="jumbotron m-t-3 p-y-2">
+                        Si ves alguna discordancia con tus permisos de acceso, por favor, comunícate con el administrador de tu hostel o con el Dpto. de Tecnologías de la Información
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

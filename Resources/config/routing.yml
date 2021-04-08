@@ -1,0 +1,56 @@
+#== LOGIN
+login_homepage:
+    path:     /
+    defaults: { _controller: LoginBundle:Login:index }
+
+login_logout:
+    path:     /login/logout
+    defaults: { _controller: LoginBundle:Login:logout }
+    options:
+        expose: true
+
+login_validar:
+    path:     /login/ajax/validar-credenciales
+    defaults: { _controller: LoginBundle:Login:validarCredenciales }
+
+login_recuperar_clave:
+    path:     /login/olvido-clave
+    defaults: { _controller: LoginBundle:Login:olvidoClaveUsuario }
+
+login_enviar_clave_temporal:
+    path:     /login/ajax/enviar-clave-temporal
+    defaults: { _controller: LoginBundle:Login:enviarClaveTemporal }
+
+#== PERFIL USUARIO
+login_perfil_usuario:
+    path:     /perfil/
+    defaults: { _controller: LoginBundle:PerfilUsuario:index }
+
+login_crear_clave_usuario:
+    path:     /perfil/crear-clave-usuario
+    defaults: { _controller: LoginBundle:Login:crearClaveUsuario }
+
+login_registrar_nueva_clave_usuario:
+    path:     /perfil/ajax/registrar-nueva-clave-usuario
+    defaults: { _controller: LoginBundle:Login:registrarNuevaClaveUsuario }
+
+login_cambiar_clave_usuario:
+    path:     /perfil/cambiar-clave-usuario
+    defaults: { _controller: LoginBundle:Login:cambiarClaveUsuario }
+
+login_registrar_cambio_clave_usuario:
+    path:     /perfil/ajax/registrar-cambio-clave-usuario
+    defaults: { _controller: LoginBundle:Login:registrarCambioClaveUsuario }
+
+#== PERMISOS USUARIO
+login_permisos_usuario:
+    path:     /login/verificar-permisos
+    defaults: { _controller: LoginBundle:PermisosUsuario:permisosUsuario }
+
+login_redirigir_homepage_nivel:
+    path:     /login/redirigir-homepage-nivel
+    defaults: { _controller: LoginBundle:PermisosUsuario:redirigirHomepageNivel }
+
+login_permisos_denegados:
+    path:     /login/permisos-denegados
+    defaults: { _controller: LoginBundle:PermisosUsuario:permisosDenegados }
